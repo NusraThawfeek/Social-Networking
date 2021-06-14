@@ -1,10 +1,11 @@
 const express = require('express');
-const { model } = require('mongoose');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = mongoose.model("User");
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../valuekeys')
+const requireLogin = require('../middleware/requireLogin')
 
 router.get("/", function (req, res) {
     res.send("hey...")
@@ -28,7 +29,7 @@ router.post("/signup", (req, res) => {
         bcrypt.hash(password, 12).then(hashedpw => {
             const user = new User({
                 email,
-                password:hashedpw,
+                password: hashedpw,
                 name
             })
             user.save().then(user => {
@@ -44,25 +45,31 @@ router.post("/signup", (req, res) => {
 
 })
 
-router.post("/signin",(req,res)=>{
-    const {email,password}=req.body;
-    if(!email||!password){
-        return res.status(422).json({error:"Please enter email and password!"})
+router.get("/protected", requireLogin, (req, res) => {
+    res.send("heyyyy");
+})
+
+router.post("/signin", (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(422).json({ error: "Please enter email and password!" })
     }
-    User.findOne({email:email}).then(savedUser=>{
-        if(!savedUser){
-            return res.status(422).json({error:"Invalid email or password!"})
+    User.findOne({ email: email }).then(savedUser => {
+        if (!savedUser) {
+            return res.status(422).json({ error: "Invalid email or password!" })
         }
-        bcrypt.compare(password,savedUser.password).then(doMatch=>{
-            if(doMatch){
-                return res.json({error:"Successfully signed in :)"})
+        bcrypt.compare(password, savedUser.password).then(doMatch => {
+            if (doMatch) {
+                // return res.json({ error: "Successfully signed in :)" })
+                const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
+                res.json({ token });
             }
-            else{
-                return res.status(422).json({error:"Invalid email or password!"})
+            else {
+                return res.status(422).json({ error: "Invalid email or password!" })
             }
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err);
         })
     })
 })
-module.exports = router
+module.exports = router;
