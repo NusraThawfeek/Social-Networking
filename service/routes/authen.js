@@ -15,14 +15,14 @@ router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
         res.status(422).json({
-            error: "Enter All the information.."
+            error: "Enter all the information."
         })
     }
 
     User.findOne({ email: email }).then(saveUser => {
         if (saveUser) {
             return res.status(422).json({
-                error: "User already exist"
+                error: "User email already exist"
             })
         }
 
@@ -46,13 +46,13 @@ router.post("/signup", (req, res) => {
 })
 
 router.get("/protected", requireLogin, (req, res) => {
-    res.send("heyyyy");
+    res.send("hey");
 })
 
 router.post("/signin", (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.status(422).json({ error: "Please enter email and password!" })
+        return res.status(422).json({ error: "Please enter your email and password!" })
     }
     User.findOne({ email: email }).then(savedUser => {
         if (!savedUser) {
@@ -62,7 +62,8 @@ router.post("/signin", (req, res) => {
             if (doMatch) {
                 // return res.json({ error: "Successfully signed in :)" })
                 const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-                res.json({ token });
+                const { _id, name, email } = savedUser;
+                res.json({ token, user: { _id, name, email } });
             }
             else {
                 return res.status(422).json({ error: "Invalid email or password!" })

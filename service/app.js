@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const PORT = 3001;
-
+const cors= require('cors');
 
 //DKpu9K4g0oy1K3vp database acces,s password
 const mongoose = require('mongoose');
@@ -24,6 +24,7 @@ require("./models/user");
 require("./models/post");
 
 app.use(express.json())
+app.use(cors());
 app.use(require('./routes/authen'))
 app.use(require('./routes/postroute'))
 
