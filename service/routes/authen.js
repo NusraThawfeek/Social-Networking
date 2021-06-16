@@ -1,10 +1,11 @@
 const express = require('express');
-const { model } = require('mongoose');
 const router = express.Router();
 const mongoose = require('mongoose');
 const User = mongoose.model("User");
 const bcrypt = require('bcryptjs');
-
+const jwt = require('jsonwebtoken');
+const { JWT_SECRET } = require('../valuekeys')
+const requireLogin = require('../middleware/requireLogin')
 
 router.get("/", function (req, res) {
     res.send("hey...")
@@ -14,21 +15,21 @@ router.post("/signup", (req, res) => {
     const { name, email, password } = req.body;
     if (!name || !email || !password) {
         res.status(422).json({
-            error: "Enter All the information.."
+            error: "Enter all the information."
         })
     }
 
     User.findOne({ email: email }).then(saveUser => {
         if (saveUser) {
             return res.status(422).json({
-                error: "User already exist"
+                error: "User email already exist"
             })
         }
 
         bcrypt.hash(password, 12).then(hashedpw => {
             const user = new User({
                 email,
-                password:hashedpw,
+                password: hashedpw,
                 name
             })
             user.save().then(user => {
@@ -44,25 +45,32 @@ router.post("/signup", (req, res) => {
 
 })
 
-router.post("/signin",(req,res)=>{
-    const {email,password}=req.body;
-    if(!email||!password){
-        return res.status(422).json({error:"Please enter email and password!"})
+router.get("/protected", requireLogin, (req, res) => {
+    res.send("hey");
+})
+
+router.post("/signin", (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(422).json({ error: "Please enter your email and password!" })
     }
-    User.findOne({email:email}).then(savedUser=>{
-        if(!savedUser){
-            return res.status(422).json({error:"Invalid email or password!"})
+    User.findOne({ email: email }).then(savedUser => {
+        if (!savedUser) {
+            return res.status(422).json({ error: "Invalid email or password!" })
         }
-        bcrypt.compare(password,savedUser.password).then(doMatch=>{
-            if(doMatch){
-                return res.json({error:"Successfully signed in :)"})
+        bcrypt.compare(password, savedUser.password).then(doMatch => {
+            if (doMatch) {
+                // return res.json({ error: "Successfully signed in :)" })
+                const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
+                const { _id, name, email } = savedUser;
+                res.json({ token, user: { _id, name, email } });
             }
-            else{
-                return res.status(422).json({error:"Invalid email or password!"})
+            else {
+                return res.status(422).json({ error: "Invalid email or password!" })
             }
-        }).catch(err=>{
+        }).catch(err => {
             console.log(err);
         })
     })
 })
-module.exports = router
+module.exports = router;

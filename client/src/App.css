@@ -1,0 +1,38 @@
+.auth-card{
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 20px auto;
+}
+.input-field input[type="text"]:hover {
+    border-bottom: 1px solid #000;
+  
+   
+}
+
+.input-field input[type=text]:focus:not([read-only]){
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+.input-field .prefix.active {
+    color: #000;
+  }
+  .input-field .prefix{
+      color:gray
+  }
+.gallery{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:space-around;
+}
+.item{
+    width:30%;
+}
+.home{
+
+}
+.home-card{
+    max-width:450px;
+    height: max-content;
+    margin: 25px auto;
+}
