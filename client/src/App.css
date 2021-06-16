@@ -1,38 +1,38 @@
-.App {
-  text-align: center;
+.auth-card{
+    padding: 20px;
+    text-align: center;
+    max-width: 400px;
+    margin: 20px auto;
+}
+.input-field input[type="text"]:hover {
+    border-bottom: 1px solid #000;
+  
+   
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.input-field input[type=text]:focus:not([read-only]){
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.input-field .prefix.active {
+    color: #000;
   }
-  to {
-    transform: rotate(360deg);
+  .input-field .prefix{
+      color:gray
   }
+.gallery{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content:space-around;
+}
+.item{
+    width:30%;
+}
+.home{
+
+}
+.home-card{
+    max-width:450px;
+    height: max-content;
+    margin: 25px auto;
 }
