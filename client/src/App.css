@@ -14,6 +14,11 @@
     border-bottom: 1px solid #000;
     box-shadow: 0 1px 0 0 #000;
   }
+  .input-field input[type=password]:focus:not([read-only]){
+    border-bottom: 1px solid #000;
+    box-shadow: 0 1px 0 0 #000;
+  }
+
 .input-field .prefix.active {
     color: #000;
   }

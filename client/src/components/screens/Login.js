@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
+import { UserContext } from '../../App';
 import '../../App.css';
 import image from '../../image.jpg'
 
 export const Login = () => {
 
+    const {state,dispatch} = useContext(UserContext)
     const history = useHistory();
 
     const [email, setemail] = useState("")
@@ -31,7 +33,10 @@ export const Login = () => {
                 setinvalidmsg(data.error)
             }
             else {
-                console.log(data);
+                
+                localStorage.setItem("user",JSON.stringify(data.user))
+                localStorage.setItem("token",data.token)
+                dispatch({type:"USER",payload:data.user})
                 history.push("/")
             }
         }).catch(err => {
@@ -59,7 +64,7 @@ export const Login = () => {
                         {invalidmsg}
                     </div>
                     <div className="input-field">
-                        <i class="material-icons prefix">email</i>
+                        <i className="material-icons prefix">email</i>
                         <input
                             type="text"
                             placeholder="Email"
@@ -70,9 +75,9 @@ export const Login = () => {
                     </div>
 
                     <div className="input-field">
-                        <i class="material-icons prefix">lock</i>
+                        <i className="material-icons prefix">lock</i>
                         <input
-                            type="text"
+                            type="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => {
