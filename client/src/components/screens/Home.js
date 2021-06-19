@@ -1,35 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 export const Home = () => {
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+
+        fetch("http://localhost:3001/allpost", {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }).then(res => res.json())
+            .then(result => {
+
+                setData(result)
+                console.log(result);
+            })
+    }, [])
+
     return (
         <div className="container home">
-            <div className="card home-card">
-                <h5>DQ</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1621570168077-befe8b7eab56?ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt=""/>
-                </div>
-                <div className="card-content">
-                    <i className="material-icons" style={{ color: "red" }}>favorite_border</i>
-                    <h6>Title</h6>
-                    <p>this is a card with image of DQ.</p>
-                    <input type="text" placeholder="add comment" />
+            {data.map(item => {
+                return (
+                    <div className="card home-card" key={item._id}>
+                        <h5>{item.postedby.name}</h5>
+                        <div className="card-image">
+                            <img src={item.photo} alt="" />
+                        </div>
+                        <div className="card-content">
+                            <i className="material-icons" style={{ color: "red" }}>favorite_border</i>
+                            <h6>{item.title}</h6>
+                            <p>{item.body}</p>
+                            <input type="text" placeholder="add comment" />
 
-                </div>
-            </div>
+                        </div>
+                    </div>
+                )
+            })}
 
-            <div className="card home-card">
-                <h5>DQ</h5>
-                <div className="card-image">
-                    <img src="https://images.unsplash.com/photo-1621570168077-befe8b7eab56?ixid=MnwxMjA3fDF8MHxlZGl0b3JpYWwtZmVlZHwxfHx8ZW58MHx8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=60" alt=""/>
-                </div>
-                <div className="card-content">
-                    <i class="material-icons" style={{ color: "red" }}>favorite_border</i> 
-                    <h6>Title</h6>
-                    <p>this is a card with image of DQ.</p>
-                    <input type="text" placeholder="add comment" />
 
-                </div>
-            </div>
         </div>
     )
 }

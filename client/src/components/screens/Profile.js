@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import { UserContext } from '../../App'
 
 export const Profile = () => {
+const [data, setData] = useState([])
+const {state,dispatch}=useContext(UserContext)
+
+    useEffect(() => {
+        fetch("http://localhost:3001/mypost", {
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }).then(res => res.json())
+            .then(result => {
+
+                setData(result)
+               
+            })
+    }, [])
     return (
-        <div className="container" style={{maxWidth:"550px",margin:"0px auto"}}>
+        <div className="container" style={{ maxWidth: "550px", margin: "0px auto" }}>
             <div style={{
                 display: "flex",
                 justifyContent: "space-around",
                 margin: "18px 0px",
-                borderBottom:"1px solid gray"
+                borderBottom: "1px solid gray"
             }}>
                 <div>
                     <img style={{ width: "160px", height: "160px", borderRadius: "80px" }}
@@ -15,7 +31,7 @@ export const Profile = () => {
                     />
                 </div>
                 <div>
-                    <h5>Dulqar Salman</h5>
+                    <h5>{state?state.name:"loading..."}</h5>
                     <div style={{
                         display: "flex",
                         justifyContent: "space-around",
@@ -29,13 +45,14 @@ export const Profile = () => {
             </div>
 
             <div className="gallery">
-            <img className="item" src="https://filmfare.wwmindia.com/content/2016/Jul/14_1469712507.jpg" />
-            <img className="item" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp7cXxvGCOUnhEnbjVqS6WqYmVVHeTJAl_Ew&usqp=CAU" />
-            <img className="item" src="https://filmfare.wwmindia.com/content/2016/Jul/14_1469712507.jpg" />
-            <img className="item" src="https://filmfare.wwmindia.com/content/2016/Jul/14_1469712507.jpg" />
-            <img className="item" src="https://filmfare.wwmindia.com/content/2016/Jul/14_1469712507.jpg" />
-            <img className="item" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQp7cXxvGCOUnhEnbjVqS6WqYmVVHeTJAl_Ew&usqp=CAU" />
-            <img className="item" src="https://images.unsplash.com/photo-1621705471214-b1e0a2b42bcd?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=700&q=80"/>
+
+            {data.map(item=>{
+                return(
+                    <img key={item._id} className="item" src={item.photo} />
+                )
+            })}
+                
+ 
             </div>
         </div>
     )

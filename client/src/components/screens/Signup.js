@@ -60,7 +60,7 @@ export const Signup = () => {
                     </div>
 
                     <div className="input-field">
-                    <i class="material-icons prefix">account_circle</i>
+                        <i class="material-icons prefix">account_circle</i>
                         <input
                             type="text"
                             placeholder="Enter your name"
@@ -70,9 +70,9 @@ export const Signup = () => {
                                 setinvalidmsg('')
                             }}
                         />
-                        </div>
-                         <div className="input-field">
-                         <i class="material-icons prefix">email</i>
+                    </div>
+                    <div className="input-field">
+                        <i class="material-icons prefix">email</i>
                         <input
                             type="text"
                             placeholder="Email"
@@ -80,17 +80,17 @@ export const Signup = () => {
                             onChange={handleEmail}
 
                         />
-                        </div>
-                         <div className="input-field">
-                         <i class="material-icons prefix">lock</i>
+                    </div>
+                    <div className="input-field">
+                        <i class="material-icons prefix">lock</i>
                         <input
-                            type="text"
+                            type="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => {
                                 setpassword(e.target.value)
                                 setinvalidmsg('')
-                                
+
                             }}
                         />
                     </div>
@@ -98,9 +98,10 @@ export const Signup = () => {
                         className="btn waves-effect waves-light#006064 cyan darken-4"
                         type="submit"
                         name="action"
-                        onClick={() => { PostData() }}
+                        onClick={PostData}
                         disabled={disable}
-                    >Sign up
+                    >
+                        Sign up
                         <i className="material-icons right">send</i>
                     </button>
                     <h6><Link to="/signin">Already have an account?</Link></h6>

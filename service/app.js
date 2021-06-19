@@ -9,7 +9,8 @@ const { MONGOURI } = require("./valuekeys.js")
 
 mongoose.connect(MONGOURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 });
 
 mongoose.connection.on('connected', () => {
