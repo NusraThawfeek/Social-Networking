@@ -117,7 +117,7 @@ export const Home = () => {
     }
     return (
         <div className="container home">
-            {data.map(item => {
+            {data.slice(0).reverse().map(item => {
                 return (
                     <div className="card home-card" key={item._id}>
                         <h5>{item.postedby.name}</h5>
