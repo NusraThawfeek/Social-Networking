@@ -53,13 +53,15 @@ router.put("/like", requireLogin, (req, res) => {
         $push: { likes: req.user._id }
     }, {
         new: true// add new data to array
-    }).exec((err, result) => {
-        if (err) {
-            return res.status().json({ error: err })
-        } else {
-            res.json(result)
-        }
-    })
+    }).populate("postedby", "_id name")
+        .populate("comments.postedby", "_id name")
+        .exec((err, result) => {
+            if (err) {
+                return res.status().json({ error: err })
+            } else {
+                res.json(result)
+            }
+        })
 })
 
 router.put("/unlike", requireLogin, (req, res) => {
@@ -67,13 +69,16 @@ router.put("/unlike", requireLogin, (req, res) => {
         $pull: { likes: req.user._id }
     }, {
         new: true// add new data to array
-    }).exec((err, result) => {
-        if (err) {
-            return res.status().json({ error: err })
-        } else {
-            res.json(result)
-        }
     })
+        .populate("postedby", "_id name")
+        .populate("comments.postedby", "_id name")
+        .exec((err, result) => {
+            if (err) {
+                return res.status().json({ error: err })
+            } else {
+                res.json(result)
+            }
+        })
 })
 
 router.put("/comment", requireLogin, (req, res) => {
@@ -86,6 +91,7 @@ router.put("/comment", requireLogin, (req, res) => {
     }, {
         new: true// add new data to array
     })
+        .populate("postedby", "_id name")
         .populate("comments.postedby", "_id name")
         .exec((err, result) => {
             if (err) {
@@ -97,13 +103,15 @@ router.put("/comment", requireLogin, (req, res) => {
 })
 
 router.delete("/deletepost/:id", requireLogin, (req, res) => {
-    Post.findOne({ _id: req.params.postId })
+    Post.findOne({ _id: req.params.id })
         .populate("postedby", "_id")
         .exec((err, post) => {
+
             if (err || !post) {
                 return res.status(422).json({ error: err })
             }
-            if (post.postedby._id.toString() === req.user._id.toString) {
+            if (post.postedby._id.toString() === req.user._id.toString()) {
+                console.log("hii");
                 post.remove()
                     .then(result => {
                         res.json(result)

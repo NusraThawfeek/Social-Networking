@@ -98,7 +98,23 @@ export const Home = () => {
             })
     }
 
-    
+    const deletePost = (id) => {
+        fetch("http://localhost:3001/deletepost/" + id, {
+            method: "delete",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        }).then(res => res.json())
+            .then(result => {
+               // console.log(result);
+                const newData = data.filter(item => {
+                    return item._id !== result._id
+
+                })
+                setData(newData)
+            })
+    }
     return (
         <div className="container home">
             {data.map(item => {
@@ -107,6 +123,9 @@ export const Home = () => {
                         <h5>{item.postedby.name}</h5>
                         <i className="material-icons"
                                     style={{ color: "black" ,float:"right",marginTop:"-30px"}}     
+                               onClick={()=>{
+                                   deletePost(item._id)
+                               }}
                                 >
                                   delete
                                 </i>
