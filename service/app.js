@@ -28,6 +28,7 @@ app.use(express.json())
 app.use(cors());
 app.use(require('./routes/authen'))
 app.use(require('./routes/postroute'))
+app.use(require('./routes/userroute'))
 
 app.listen(PORT, () => {
     console.log("Server started...");

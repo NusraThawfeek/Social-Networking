@@ -8,6 +8,7 @@ import { Profile } from './components/screens/Profile';
 import { Createpost } from './components/screens/Createpost';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { initialState, reducer } from './reducers/userReducer';
+import { UserProfile } from './components/screens/UserProfile';
 
 export const UserContext = createContext()
 
@@ -30,8 +31,9 @@ const Rounting = () => {
       <Route exact path='/'><Home /></Route>
       <Route path='/signin'><Login /></Route>
       <Route path='/signup'><Signup /></Route>
-      <Route path='/profile'><Profile /></Route>
+      <Route exact  path='/profile'><Profile /></Route>
       <Route path='/create'><Createpost /></Route>
+      <Route path='/profile/:userId'><UserProfile /></Route>
     </Switch>
   )
 }
