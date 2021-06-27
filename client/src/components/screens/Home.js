@@ -109,7 +109,7 @@ export const Home = () => {
             }
         }).then(res => res.json())
             .then(result => {
-               // console.log(result);
+                // console.log(result);
                 const newData = data.filter(item => {
                     return item._id !== result._id
 
@@ -119,19 +119,20 @@ export const Home = () => {
     }
     return (
         <div className="container home">
+           
             {data.slice(0).reverse().map(item => {
                 return (
                     <div className="card home-card" key={item._id}>
-                        <h5><Link 
-                        to={"/profile/"+item.postedby._id}>{item.postedby.name}</Link></h5>
-                        <i className="material-icons"
-                                    style={{ color: "black" ,float:"right",marginTop:"-30px"}}     
-                               onClick={()=>{
-                                   deletePost(item._id)
-                               }}
-                                >
-                                  delete
-                                </i>
+                        <h5><Link
+                            to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
+                        {state._id === item.postedby._id ? <i className="material-icons"
+                            style={{ color: "black", float: "right", marginTop: "-30px" }}
+                            onClick={() => {
+                                deletePost(item._id)
+                            }}
+                        >
+                            delete
+                        </i> : ""}
                         <div className="card-image">
                             <img src={item.photo} alt="" />
                         </div>

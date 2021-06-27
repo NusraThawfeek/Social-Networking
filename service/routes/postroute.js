@@ -9,10 +9,9 @@ router.post("/createpost", requireLogin, (req, res) => {
     // if (!body||!photo) {
     //     res.status(420).json({ error: "Please fill all fields" })
     // }
-
     //console.log(req.user);
-    const post = new Post({
 
+    const post = new Post({
         body,
         photo,
         postedby: req.user
@@ -25,7 +24,7 @@ router.post("/createpost", requireLogin, (req, res) => {
     })
 })
 
-router.get("/allpost", (req, res) => {
+router.get("/allpost",requireLogin, (req, res) => {
     Post.find()
         .populate("postedby", "_id name")
         .populate("comments.postedby", "_id name")
@@ -111,7 +110,7 @@ router.delete("/deletepost/:id", requireLogin, (req, res) => {
                 return res.status(422).json({ error: err })
             }
             if (post.postedby._id.toString() === req.user._id.toString()) {
-                console.log("hii");
+             
                 post.remove()
                     .then(result => {
                         res.json(result)
@@ -119,6 +118,7 @@ router.delete("/deletepost/:id", requireLogin, (req, res) => {
                         console.log(err);
                     })
             }
+            console.log("can not delete");
         })
 })
 module.exports = router;

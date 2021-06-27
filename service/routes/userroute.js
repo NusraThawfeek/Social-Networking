@@ -21,4 +21,44 @@ router.get("/user/:id", requireLogin, (req, res) => {
             return res.status(404).json({ error: "User not found" })
         })
 })
+
+router.put("/follow", requireLogin, (req, res) => {
+    User.findByIdAndUpdate(req.body.followId, {//find user account
+        $push: { followers: req.user._id }//add my ID in followers
+    },
+        { new: true })
+        .exec((err, result) => {
+            if (err) {
+                return res.status().json({ error: err })
+            } else {
+                User.findByIdAndUpdate(req.user._id, {
+                    $push: { following: req.body.followId }
+                },
+                    { new: true })
+                    .select("-password").then(result1 => {
+                        res.json(result1)
+                    }).catch(err=>{console.log(err);})
+            }
+        })
+})
+
+router.put("/unfollow", requireLogin, (req, res) => {
+    User.findByIdAndUpdate(req.body.followId, {//find user account
+        $pull: { followers: req.user._id }//add my ID in followers
+    },
+        { new: true })
+        .exec((err, result) => {
+            if (err) {
+                return res.status().json({ error: err })
+            } else {
+                User.findByIdAndUpdate(req.user._id, {
+                    $pull: { following: req.body.followId }
+                },
+                    { new: true })
+                    .select("-password").then(result1 => {
+                        res.json(result1)
+                    }).catch(err=>{console.log(err);})
+            }
+        })
+})
 module.exports = router;

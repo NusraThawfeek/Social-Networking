@@ -20,6 +20,7 @@ const Rounting = () => {
     if (user) {
       dispatch({ type: "USER", payload: user })
      // history.push("/")
+     
     } 
     else {
       history.push("/signin")
@@ -40,7 +41,7 @@ const Rounting = () => {
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  
+  console.log(state)
   return (
 
     <UserContext.Provider value={{ state, dispatch }}>
