@@ -15,8 +15,6 @@ export const UserProfile = () => {
        setshowfollow(state? !state.following.includes(userId) : true)
     }, [showfollow])
      
-   
-
     useEffect(() => {
         fetch("http://localhost:3001/user/" + userId, {
             headers: {
@@ -54,7 +52,7 @@ export const UserProfile = () => {
                     }
                 })
                 localStorage.setItem("user", JSON.stringify(result))
-                console.log(result.followers);
+              
                 setData((prevState) => {
                     console.log(prevState.followers);
                     return {
@@ -90,12 +88,14 @@ export const UserProfile = () => {
                 setData((prevState) => {
                     console.log(prevState);
                     const newfollower = prevState.followers.filter(item => item !== userId)
-                   console.log(newfollower);
+                //     console.log(userId);
+                //    console.log(newfollower);
                     return {
                         ...prevState,
                         followers: newfollower
                     }
                 })
+
                 setshowfollow(true)
             })
     }
@@ -162,7 +162,7 @@ export const UserProfile = () => {
 
                         {post.length > 0 ? post.map(item => {
                             return (
-                                <img key={item._id} className="item" src={item.photo} alt='' />
+                                <img key={item._id} className="items" src={item.photo} alt='' />
                             )
                         }) : <h5>No posts</h5>}
 

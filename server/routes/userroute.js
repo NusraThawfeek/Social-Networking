@@ -22,6 +22,16 @@ router.get("/user/:id", requireLogin, (req, res) => {
         })
 })
 
+router.get("/all",requireLogin, (req, res) => {
+    User.find()
+        .then(user => {
+            res.json(user)
+            console.log(user);
+        }).catch(err => {
+            console.log(err);
+        })
+})
+
 router.put("/follow", requireLogin, (req, res) => {
     User.findByIdAndUpdate(req.body.followId, {//find user account
         $push: { followers: req.user._id }//add my ID in followers

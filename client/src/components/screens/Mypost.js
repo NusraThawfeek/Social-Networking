@@ -3,13 +3,13 @@ import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
 
 
-export const Home = () => {
+export const Mypost = () => {
     const [data, setData] = useState([])
     const { state, dispatch } = useContext(UserContext)
 
     useEffect(() => {
 
-        fetch("http://localhost:3001/allpost", {
+        fetch("http://localhost:3001/mypost", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -117,12 +117,15 @@ export const Home = () => {
                 setData(newData)
             })
     }
+
+
+    
     return (
         <div className="container home">
-           
+
             {data.slice(0).reverse().map(item => {
                 return (
-                    <div className="card home-card" key={item._id}>
+                    <div className="card home-card" key={item._id} id={"qwe"+item._id}>
                         <h5><Link
                             to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
                         {state._id === item.postedby._id ? <i className="material-icons"
@@ -133,7 +136,7 @@ export const Home = () => {
                         >
                             delete
                         </i> : ""}
-                        <div className="card-image">
+                        <div className="card-image" >
                             <img src={item.photo} alt="" />
                         </div>
                         <div className="card-content">
@@ -152,7 +155,7 @@ export const Home = () => {
                                 >
                                     favorite_border
                                 </i>
-                                
+
                             }
 
                             <h6>{item.likes.length} likes</h6>

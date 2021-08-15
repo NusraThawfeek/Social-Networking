@@ -3,13 +3,13 @@ import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
 
 
-export const Home = () => {
+export const SubscribedUser = () => {
     const [data, setData] = useState([])
     const { state, dispatch } = useContext(UserContext)
 
     useEffect(() => {
 
-        fetch("http://localhost:3001/allpost", {
+        fetch("http://localhost:3001/allsubpost", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -138,23 +138,22 @@ export const Home = () => {
                         </div>
                         <div className="card-content">
                             {item.likes.includes(state._id) ?
-                                <i className="material-icons"
-                                    style={{ color: "red" }}
+                                <i className="fas fa-heart"
+                                    style={{ color: "red",fontSize:"20px" }}
                                     onClick={() => {
                                         unlikePost(item._id)
                                     }}
-                                >favorite</i> :
-                                <i className="material-icons"
-                                    style={{ color: "black" }}
+                                ></i> :
+                                <i className="far fa-heart"
+                                    style={{ color: "black" , fontSize:"20px"}}
                                     onClick={() => {
                                         likePost(item._id)
                                     }}
                                 >
-                                    favorite_border
+                                   
                                 </i>
-                                
                             }
-
+                          
                             <h6>{item.likes.length} likes</h6>
                             <p>{item.body}</p>
                             {

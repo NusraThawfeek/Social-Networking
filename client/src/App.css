@@ -31,13 +31,46 @@
     justify-content:space-around;
 }
 .item{
-    width:30%;
+    width:90%;
+    height: 180px;
+    
 }
-.home{
+.items{
+  width:30%;
+  height: 180px;
+  
+}
 
-}
 .home-card{
     max-width:450px;
     height: max-content;
     margin: 25px auto;
 }
+
+
+
+
+  /*
+      ADDITIONAL DEMO STYLE, NOT IMPORTANT TO MAKE THINGS WORK BUT TO MAKE IT A BIT NICER :)
+  */
+  @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+  
+  body {
+    font-family: "Poppins", sans-serif;
+    background: #fafafa;
+  }
+  
+
+  a,
+  a:hover,
+  a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  
+ 
+
+ 
+ 
+  
