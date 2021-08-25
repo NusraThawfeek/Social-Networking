@@ -36,7 +36,7 @@
     
 }
 .items{
-  width:30%;
+ 
   height: 180px;
   
 }
@@ -47,8 +47,46 @@
     margin: 25px auto;
 }
 
+.table-borderless tr, .table-borderless th {
+  border: none;
+}
+.table-borderless{
 
+  background-color:whitesmoke;
+  max-width:450px;
+  margin: 5px -15px;
+  position: absolute;
+  z-index: 2;
+  box-shadow: 1px 3px 8px #888888 ;
 
+}
+/* .white-bg{
+ 
+  background-color:whitesmoke;
+  width: 100%;
+  right: 0;
+height: 100%;
+  position: absolute;
+  z-index: 1;
+} */
+.searchbar{
+  width: 40%;
+  padding: 15px;
+  margin-left: 5%;
+  font-style: oblique;
+
+}
+.search-btn{
+ float: left;
+  padding: 5.25px 10px;
+  margin-top: -44.5px;
+ margin-left: 383px;
+ 
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
 
   /*
       ADDITIONAL DEMO STYLE, NOT IMPORTANT TO MAKE THINGS WORK BUT TO MAKE IT A BIT NICER :)

@@ -9,12 +9,14 @@ export const UserProfile = () => {
     const [data, setData] = useState({})
     const [post, setPost] = useState([])
     const [showfollow, setshowfollow] = useState()
+    const myId = (state ? state._id : "")
+
 
 
     useEffect(() => {
-       setshowfollow(state? !state.following.includes(userId) : true)
+        setshowfollow(state ? !state.following.includes(userId) : true)
     }, [showfollow])
-     
+
     useEffect(() => {
         fetch("http://localhost:3001/user/" + userId, {
             headers: {
@@ -51,19 +53,21 @@ export const UserProfile = () => {
                         followers: result.followers
                     }
                 })
+
                 localStorage.setItem("user", JSON.stringify(result))
-              
+
                 setData((prevState) => {
-                    console.log(prevState.followers);
+                 
                     return {
                         ...prevState,
-                       followers: [...prevState.followers, result.followers[0]],
+                        followers: [...prevState.followers, myId],
 
                     }
                 })
                 setshowfollow(false)
             })
     }
+
     const unfollowUser = () => {
         fetch("http://localhost:3001/unfollow", {
             method: "PUT",
@@ -76,7 +80,7 @@ export const UserProfile = () => {
             })
         }).then(res => res.json())
             .then(result => {
-               
+
                 dispatch({
                     type: "UPDATE",
                     payload: {
@@ -86,14 +90,15 @@ export const UserProfile = () => {
                 })
                 localStorage.setItem("user", JSON.stringify(result))
                 setData((prevState) => {
-                    console.log(prevState);
-                    const newfollower = prevState.followers.filter(item => item !== userId)
-                //     console.log(userId);
-                //    console.log(newfollower);
+                    console.log(prevState.followers);
+                    const newfollower = prevState.followers.filter(item => item !== myId)
+                    console.log(userId);
+                    console.log(newfollower);
                     return {
                         ...prevState,
                         followers: newfollower
                     }
+
                 })
 
                 setshowfollow(true)

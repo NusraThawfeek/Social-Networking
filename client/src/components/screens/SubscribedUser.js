@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
+import Search from './Search'
 
 
 export const SubscribedUser = () => {
@@ -119,14 +120,17 @@ export const SubscribedUser = () => {
     }
     return (
         <div className="container home">
-           
+           <div >
+               <Search></Search>
+           </div>
+
             {data.slice(0).reverse().map(item => {
                 return (
                     <div className="card home-card" key={item._id}>
-                        <h5><Link
+                        <h5 style={{padding:"5px 0px 0px 10px"}}><Link 
                             to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
                         {state._id === item.postedby._id ? <i className="material-icons"
-                            style={{ color: "black", float: "right", marginTop: "-30px" }}
+                             style={{ color: "black", marginTop: "-30px" ,marginLeft:"420px"}}
                             onClick={() => {
                                 deletePost(item._id)
                             }}

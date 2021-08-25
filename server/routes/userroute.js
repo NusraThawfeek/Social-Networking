@@ -24,9 +24,10 @@ router.get("/user/:id", requireLogin, (req, res) => {
 
 router.get("/all",requireLogin, (req, res) => {
     User.find()
+    .select("-password")
         .then(user => {
             res.json(user)
-            console.log(user);
+            // console.log(user);
         }).catch(err => {
             console.log(err);
         })
