@@ -59,7 +59,7 @@ export default function Search() {
                     suggestions.map(
                         sdata => (
                             <tr key={sdata._id}
-                            style={{cursor:"pointer"}}
+                                style={{ cursor: "pointer" }}
                                 onClick={() => redirect(sdata._id)}
                             >
                                 <td>{sdata.name}</td>
@@ -71,7 +71,7 @@ export default function Search() {
 
                 )
         }
-    
+
     }
 
 

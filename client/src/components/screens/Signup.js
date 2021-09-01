@@ -55,7 +55,7 @@ export const Signup = () => {
 
     }
 
-    return (// backgroundImage: `url(${image})`,
+    return (
         <div className="background" style={{ minHeight: "94vh", marginTop: "-20px", marginBottom: "0px", padding: "70px" }}>
 
             <div className="card auth-card">
