@@ -1,14 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
+import { Loader } from './Loader'
 
 
 export const Mypost = () => {
     const [data, setData] = useState([])
     const { state, dispatch } = useContext(UserContext)
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
-
+        setloading(true)
         fetch("http://localhost:3001/mypost", {
             method: "GET",
             headers: {
@@ -18,6 +20,7 @@ export const Mypost = () => {
             .then(result => {
 
                 setData(result)
+                setloading(false)
                 // console.log(result);
             })
     }, [])
@@ -101,6 +104,7 @@ export const Mypost = () => {
     }
 
     const deletePost = (id) => {
+        setloading(true)
         fetch("http://localhost:3001/deletepost/" + id, {
             method: "delete",
             headers: {
@@ -115,21 +119,22 @@ export const Mypost = () => {
 
                 })
                 setData(newData)
+                setloading(false)
             })
     }
 
 
-    
+
     return (
         <div className="container home">
 
             {data.slice(0).reverse().map(item => {
                 return (
-                    <div className="card home-card" key={item._id} id={"qwe"+item._id}>
-                        <h5 style={{padding:"5px 0px 0px 10px"}}><Link
+                    <div className="card home-card" key={item._id} id={"qwe" + item._id}>
+                        <h5 style={{ padding: "5px 0px 0px 10px" }}><Link
                             to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
                         {state._id === item.postedby._id ? <i className="material-icons"
-                            style={{ color: "black", marginTop: "-30px" ,marginLeft:"420px"}}
+                            style={{ color: "black", marginTop: "-30px", marginLeft: "420px" }}
                             onClick={() => {
                                 deletePost(item._id)
                             }}
@@ -178,7 +183,7 @@ export const Mypost = () => {
                     </div>
                 )
             })}
-
+            {loading ? <Loader /> : null}
 
         </div>
     )

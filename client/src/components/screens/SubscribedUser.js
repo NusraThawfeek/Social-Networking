@@ -2,14 +2,16 @@ import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
 import Search from './Search'
+import { Loader } from './Loader'
 
 
 export const SubscribedUser = () => {
     const [data, setData] = useState([])
     const { state, dispatch } = useContext(UserContext)
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
-
+        setloading(true)
         fetch("http://localhost:3001/allsubpost", {
             method: "GET",
             headers: {
@@ -17,8 +19,8 @@ export const SubscribedUser = () => {
             }
         }).then(res => res.json())
             .then(result => {
-
                 setData(result)
+                setloading(false)
                 // console.log(result);
             })
     }, [])
@@ -120,17 +122,17 @@ export const SubscribedUser = () => {
     }
     return (
         <div className="container home">
-           <div >
-               <Search></Search>
-           </div>
+            <div >
+                <Search></Search>
+            </div>
 
             {data.slice(0).reverse().map(item => {
                 return (
                     <div className="card home-card" key={item._id}>
-                        <h5 style={{padding:"5px 0px 0px 10px"}}><Link 
+                        <h5 style={{ padding: "5px 0px 0px 10px" }}><Link
                             to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
                         {state._id === item.postedby._id ? <i className="material-icons"
-                             style={{ color: "black", marginTop: "-30px" ,marginLeft:"420px"}}
+                            style={{ color: "black", marginTop: "-30px", marginLeft: "420px" }}
                             onClick={() => {
                                 deletePost(item._id)
                             }}
@@ -143,21 +145,21 @@ export const SubscribedUser = () => {
                         <div className="card-content">
                             {item.likes.includes(state._id) ?
                                 <i className="fas fa-heart"
-                                    style={{ color: "red",fontSize:"20px" }}
+                                    style={{ color: "red", fontSize: "20px" }}
                                     onClick={() => {
                                         unlikePost(item._id)
                                     }}
                                 ></i> :
                                 <i className="far fa-heart"
-                                    style={{ color: "black" , fontSize:"20px"}}
+                                    style={{ color: "black", fontSize: "20px" }}
                                     onClick={() => {
                                         likePost(item._id)
                                     }}
                                 >
-                                   
+
                                 </i>
                             }
-                          
+
                             <h6>{item.likes.length} likes</h6>
                             <p>{item.body}</p>
                             {
@@ -179,7 +181,7 @@ export const SubscribedUser = () => {
                 )
             })}
 
-
+            {loading ? <Loader /> : null}
         </div>
     )
 }

@@ -2,6 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App'
 import { useParams } from 'react-router-dom'
+import { Loader } from './Loader'
 export const UserProfile = () => {
 
     const { userId } = useParams()
@@ -9,6 +10,7 @@ export const UserProfile = () => {
     const [data, setData] = useState({})
     const [post, setPost] = useState([])
     const [showfollow, setshowfollow] = useState()
+    const [loading, setloading] = useState(false);
     const myId = (state ? state._id : "")
 
 
@@ -18,6 +20,7 @@ export const UserProfile = () => {
     }, [showfollow])
 
     useEffect(() => {
+        setloading(true)
         fetch("http://localhost:3001/user/" + userId, {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -28,6 +31,7 @@ export const UserProfile = () => {
                 // console.log(result.posts)
                 setData(result.user)
                 setPost(result.posts)
+                setloading(false)
 
             })
     }, [])
@@ -57,7 +61,7 @@ export const UserProfile = () => {
                 localStorage.setItem("user", JSON.stringify(result))
 
                 setData((prevState) => {
-                 
+
                     return {
                         ...prevState,
                         followers: [...prevState.followers, myId],
@@ -113,11 +117,12 @@ export const UserProfile = () => {
                         display: "flex",
                         justifyContent: "space-around",
                         margin: "18px 0px",
-                        borderBottom: "1px solid gray"
+                        borderBottom: "2px solid gray"
                     }}>
-                        <div>
-                            <img style={{ width: "160px", height: "160px", borderRadius: "80px" }}
-                                src="https://www.pinkvilla.com/files/styles/contentpreview/public/DulquerSalmaan.jpg?itok=ajUxYXQd"
+                        <div>{console.log(data)}
+                            <img style={{ width: "160px", height: "160px", borderRadius: "80px",marginBottom: "5px"  }}
+                                src={data.profilePic}
+
                             />
                         </div>
                         <div>
@@ -175,6 +180,7 @@ export const UserProfile = () => {
                     </div>
                 </>
                 : ""}
+                {loading?<Loader/>:null}
         </div>
     )
 

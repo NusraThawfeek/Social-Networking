@@ -72,4 +72,23 @@ router.put("/unfollow", requireLogin, (req, res) => {
             }
         })
 })
+
+
+router.put("/edit", requireLogin, (req, res) => {
+    const {profilePic} = req.body;
+
+    User.findByIdAndUpdate(req.user._id , {//find user account  
+      profilePic:profilePic
+    },
+        { new: true })
+        .exec((err, result) => {
+            if (err) {
+                return res.status().json({ error: err })
+            } else {
+                res.json(result);
+            }
+        })
+})
+
+
 module.exports = router;

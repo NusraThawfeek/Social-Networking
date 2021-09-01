@@ -30,7 +30,7 @@ router.post("/signup", (req, res) => {
             const user = new User({
                 email,
                 password: hashedpw,
-                name
+                name, 
             })
             user.save().then(user => {
                 res.json({ message: "saved successfully" })
@@ -62,8 +62,8 @@ router.post("/signin", (req, res) => {
             if (doMatch) {
                 // return res.json({ error: "Successfully signed in :)" })
                 const token = jwt.sign({ _id: savedUser._id }, JWT_SECRET);
-                const { _id, name, email,following,followers} = savedUser;
-                res.json({ token, user: { _id, name, email,following,followers } });
+                const { _id, name, email,following,followers,profilePic} = savedUser;
+                res.json({ token, user: { _id, name, email,following,followers,profilePic } });
             }
             else {
                 return res.status(422).json({ error: "Invalid email or password!" })

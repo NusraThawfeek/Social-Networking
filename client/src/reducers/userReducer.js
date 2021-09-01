@@ -15,6 +15,12 @@ export const reducer = (state, action) => {
         }
 
     }
+    if (action.type === "PROFILE") {
+        return {
+            ...state,//spread old state
+            profilePic:action.payload.profilePic
+        }
+    }
     return state
 }
 //The reducer function receives an action, which is executed by a dispatch function.

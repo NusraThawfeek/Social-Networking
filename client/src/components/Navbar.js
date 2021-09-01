@@ -48,7 +48,7 @@ const Navbar = () => {
         <div>
             <nav className="nav-extended">
                 <div className="nav-wrapper #00838f cyan darken-3" style={{ paddingLeft: "3%", paddingRight: "3%" }}>
-                    <Link to={state ? "/" : "/signin"} className="brand-logo">Social Network</Link>
+                    <Link to={state ? "/" : "/signin"} className="brand-logo">Netnova</Link>
                     <ul id="nav-mobile" className="right hide-on-med-and-down">
                         {renderList()}
                     </ul>

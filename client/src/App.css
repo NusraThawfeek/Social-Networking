@@ -1,15 +1,17 @@
+.background {
+  background:radial-gradient(rgba(91, 148, 148, 0.719),black);
+}
 .auth-card{
     padding: 20px;
     text-align: center;
     max-width: 400px;
-    margin: 20px auto;
-}
-.input-field input[type="text"]:hover {
-    border-bottom: 1px solid #000;
-  
+    margin: 30px auto;
+    background-color: whitesmoke;
    
 }
-
+.input-field input[type="text"]:hover {
+    border-bottom: 1px solid #000;  
+}
 .input-field input[type=text]:focus:not([read-only]){
     border-bottom: 1px solid #000;
     box-shadow: 0 1px 0 0 #000;
@@ -60,15 +62,32 @@
   box-shadow: 1px 3px 8px #888888 ;
 
 }
-/* .white-bg{
- 
-  background-color:whitesmoke;
-  width: 100%;
-  right: 0;
-height: 100%;
+
+.viewbg div:not(.photo,.photo2){
+
+  position:relative;
+  z-index:0;
+ filter: blur(8px);
+
+}
+.photo {
+ filter: blur(0);
+ filter: none;
+  width: 380px;
   position: absolute;
-  z-index: 1;
-} */
+  z-index:10;
+  margin-left: 100px;
+  margin-top:-150px;
+}
+
+.prfIcon{
+  position: relative;
+  z-index: 0;
+  bottom: -100px;
+  left: -80px;
+  
+}
+
 .searchbar{
   width: 40%;
   padding: 15px;
@@ -86,6 +105,25 @@ height: 100%;
   font-size: 17px;
   border: none;
   cursor: pointer;
+}
+.fp-container{
+  position: fixed;
+  z-index: 100;
+  width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+background: #fafafa;
+opacity: 0.4;
+
+}
+
+.fp-container .fp-loader{
+top: 40%;
+left: 48%;
+z-index: 10000;
+position: absolute;
+
 }
 
   /*
