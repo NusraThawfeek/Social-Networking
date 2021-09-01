@@ -1,23 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
+import Search from './Search'
+import { Loader } from './Loader'
 
 
-export const Home = () => {
+export const SubscribedUser = () => {
     const [data, setData] = useState([])
     const { state, dispatch } = useContext(UserContext)
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
-
-        fetch("http://localhost:3001/allpost", {
+        setloading(true)
+        fetch("http://localhost:3001/allsubpost", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(res => res.json())
             .then(result => {
-
                 setData(result)
+                setloading(false)
                 // console.log(result);
             })
     }, [])
@@ -119,14 +122,17 @@ export const Home = () => {
     }
     return (
         <div className="container home">
-           
+            <div >
+                <Search></Search>
+            </div>
+
             {data.slice(0).reverse().map(item => {
                 return (
                     <div className="card home-card" key={item._id}>
-                        <h5><Link
+                        <h5 style={{ padding: "5px 0px 0px 10px" }}><Link
                             to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
                         {state._id === item.postedby._id ? <i className="material-icons"
-                            style={{ color: "black", float: "right", marginTop: "-30px" }}
+                            style={{ color: "black", marginTop: "-30px", marginLeft: "420px" }}
                             onClick={() => {
                                 deletePost(item._id)
                             }}
@@ -138,21 +144,20 @@ export const Home = () => {
                         </div>
                         <div className="card-content">
                             {item.likes.includes(state._id) ?
-                                <i className="material-icons"
-                                    style={{ color: "red" }}
+                                <i className="fas fa-heart"
+                                    style={{ color: "red", fontSize: "20px" }}
                                     onClick={() => {
                                         unlikePost(item._id)
                                     }}
-                                >favorite</i> :
-                                <i className="material-icons"
-                                    style={{ color: "black" }}
+                                ></i> :
+                                <i className="far fa-heart"
+                                    style={{ color: "black", fontSize: "20px" }}
                                     onClick={() => {
                                         likePost(item._id)
                                     }}
                                 >
-                                    favorite_border
+
                                 </i>
-                                
                             }
 
                             <h6>{item.likes.length} likes</h6>
@@ -176,7 +181,7 @@ export const Home = () => {
                 )
             })}
 
-
+            {loading ? <Loader /> : null}
         </div>
     )
 }

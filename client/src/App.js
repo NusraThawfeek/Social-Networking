@@ -8,6 +8,9 @@ import { Profile } from './components/screens/Profile';
 import { Createpost } from './components/screens/Createpost';
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import { initialState, reducer } from './reducers/userReducer';
+import { UserProfile } from './components/screens/UserProfile';
+import { SubscribedUser } from './components/screens/SubscribedUser';
+import { Mypost } from './components/screens/Mypost';
 
 export const UserContext = createContext()
 
@@ -19,6 +22,7 @@ const Rounting = () => {
     if (user) {
       dispatch({ type: "USER", payload: user })
      // history.push("/")
+     
     } 
     else {
       history.push("/signin")
@@ -27,18 +31,21 @@ const Rounting = () => {
   return (
 
     <Switch>
-      <Route exact path='/'><Home /></Route>
+      <Route exact path='/home'><Home /></Route>
       <Route path='/signin'><Login /></Route>
       <Route path='/signup'><Signup /></Route>
-      <Route path='/profile'><Profile /></Route>
+      <Route exact  path='/profile'><Profile /></Route>
       <Route path='/create'><Createpost /></Route>
+      <Route path='/profile/:userId'><UserProfile /></Route>
+      <Route exact path='/'><SubscribedUser/></Route>
+      <Route path='/mypost'><Mypost /></Route>
     </Switch>
   )
 }
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
-  
+
   return (
 
     <UserContext.Provider value={{ state, dispatch }}>

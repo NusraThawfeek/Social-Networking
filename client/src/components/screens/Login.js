@@ -3,6 +3,8 @@ import { Link, useHistory } from 'react-router-dom'
 import { UserContext } from '../../App';
 import '../../App.css';
 import image from '../../image.jpg'
+import { Loader } from './Loader';
+
 
 export const Login = () => {
 
@@ -13,9 +15,10 @@ export const Login = () => {
     const [password, setpassword] = useState("")
     const [disable, setdisabled] = useState(false)
     const [invalidmsg, setinvalidmsg] = useState('')
+    const [loading, setloading] = useState(false);
 
     const PostData = () => {
-
+        setloading(true);
         fetch("http://localhost:3001/signin", {
             method: "post",
             headers: {
@@ -31,6 +34,7 @@ export const Login = () => {
             if (data.error) {
                 console.log(data.error);
                 setinvalidmsg(data.error)
+                setloading(false)
             }
             else {
                 
@@ -55,8 +59,8 @@ export const Login = () => {
 
     }
 
-    return (
-        <div style={{ backgroundImage: `url(${image})`, minHeight: "94vh", marginTop: "-20px", padding: "70px" }}>
+    return (//backgroundImage: `url(${image})`,
+        <div className="background" style={{  minHeight: "94vh", marginTop: "-20px", padding: "70px" }}>
             <div className="card auth-card">
                 <div className="card-content">
                     <h4>SIGN IN</h4>
@@ -96,10 +100,12 @@ export const Login = () => {
                     >Sign in
                         <i className="material-icons right">send</i>
                     </button>
-                    <h6><Link to="/signup">Create account</Link></h6>
+                    <h6 style={{paddingTop:"5px"}}><Link to="/signup">Create account</Link></h6>
                 </div>
             </div>
-
+            {loading ? 
+                <Loader/> 
+                : null}
         </div>
     )
 }

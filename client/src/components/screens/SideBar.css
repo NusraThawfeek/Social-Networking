@@ -1,0 +1,15 @@
+ 
+  .menu{
+    display:none;
+}
+.nav-menu {
+    display: none;    
+  }
+
+  @media screen and (max-width: 992px){
+      .menu{
+          display: block;
+         
+      }
+        
+  }

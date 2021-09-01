@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import image from '../../image.jpg'
+import { Loader } from './Loader';
+
+
 
 
 export const Signup = () => {
@@ -10,9 +13,11 @@ export const Signup = () => {
     const [password, setpassword] = useState("")
     const [disable, setdisabled] = useState(false)
     const [invalidmsg, setinvalidmsg] = useState('')
+    const [loading, setloading] = useState(false);
+
 
     const PostData = () => {
-
+        setloading(true);
         fetch("http://localhost:3001/signup", {
             method: "post",
             headers: {
@@ -28,6 +33,7 @@ export const Signup = () => {
             if (data.error) {
                 console.log(data.error);
                 setinvalidmsg(data.error)
+                setloading(false)
             }
             else {
                 console.log(data.message);
@@ -50,7 +56,7 @@ export const Signup = () => {
     }
 
     return (
-        <div style={{ backgroundImage: `url(${image})`, minHeight: "94vh", marginTop: "-20px", marginBottom: "0px", padding: "70px" }}>
+        <div className="background" style={{ minHeight: "94vh", marginTop: "-20px", marginBottom: "0px", padding: "70px" }}>
 
             <div className="card auth-card">
                 <div className="card-content">
@@ -60,7 +66,7 @@ export const Signup = () => {
                     </div>
 
                     <div className="input-field">
-                        <i class="material-icons prefix">account_circle</i>
+                        <i className="material-icons prefix">account_circle</i>
                         <input
                             type="text"
                             placeholder="Enter your name"
@@ -93,6 +99,7 @@ export const Signup = () => {
 
                             }}
                         />
+
                     </div>
                     <button
                         className="btn waves-effect waves-light#006064 cyan darken-4"
@@ -104,9 +111,13 @@ export const Signup = () => {
                         Sign up
                         <i className="material-icons right">send</i>
                     </button>
-                    <h6><Link to="/signin">Already have an account?</Link></h6>
+
+                    <h6 style={{ paddingTop: "5px" }}><Link to="/signin">Already have an account?</Link></h6>
                 </div>
             </div>
+            {loading ? 
+                    <Loader/>                         
+                         : null}
         </div>
     )
 }

@@ -1,14 +1,16 @@
 
 import React, { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom';
+import { Loader } from './Loader';
 
 export const Createpost = () => {
 
     const history = useHistory();
-  
+
     const [Body, setBody] = useState("")
     const [image, setimage] = useState("")
     const [url, seturl] = useState("")
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
         if (url) {
@@ -19,7 +21,7 @@ export const Createpost = () => {
                     "Authorization": "Bearer " + localStorage.getItem("token")
                 },
                 body: JSON.stringify({
-                  
+
                     body: Body,
                     photo: url
                 })
@@ -28,11 +30,11 @@ export const Createpost = () => {
                 .then(data => {
                     if (data.error) {
                         console.log(data.error);
-
                     }
                     else {
                         console.log(data.message);
-                        history.push("/");
+                        setloading(false)
+                        history.push("/mypost");
                     }
                 }).catch(err => {
                     console.log(err);
@@ -42,7 +44,7 @@ export const Createpost = () => {
     }, [url])//when url changes, code will execute
 
     const postDetails = () => {
-
+        setloading(true)
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "social-network");
@@ -56,16 +58,9 @@ export const Createpost = () => {
         }).catch(err => {
             console.log(err);
         })
-
-
-
-
-
-
     }
 
     return (
-
         <div className="container" >
             <div className="card input-field" style={{ margin: "50px auto", maxWidth: "500px", textAlign: "center" }}>
                 <div className="card-content">
@@ -116,6 +111,7 @@ export const Createpost = () => {
 
 
             </div>
+            {loading ? <Loader /> : null}
         </div>
     )
 }

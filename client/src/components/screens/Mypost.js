@@ -1,15 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from '../../App'
 import { Link } from 'react-router-dom'
+import { Loader } from './Loader'
 
 
-export const Home = () => {
+export const Mypost = () => {
     const [data, setData] = useState([])
     const { state, dispatch } = useContext(UserContext)
+    const [loading, setloading] = useState(false);
 
     useEffect(() => {
-
-        fetch("http://localhost:3001/allpost", {
+        setloading(true)
+        fetch("http://localhost:3001/mypost", {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -18,6 +20,7 @@ export const Home = () => {
             .then(result => {
 
                 setData(result)
+                setloading(false)
                 // console.log(result);
             })
     }, [])
@@ -101,6 +104,7 @@ export const Home = () => {
     }
 
     const deletePost = (id) => {
+        setloading(true)
         fetch("http://localhost:3001/deletepost/" + id, {
             method: "delete",
             headers: {
@@ -115,25 +119,29 @@ export const Home = () => {
 
                 })
                 setData(newData)
+                setloading(false)
             })
     }
+
+
+
     return (
         <div className="container home">
-           
+
             {data.slice(0).reverse().map(item => {
                 return (
-                    <div className="card home-card" key={item._id}>
-                        <h5><Link
+                    <div className="card home-card" key={item._id} id={"qwe" + item._id}>
+                        <h5 style={{ padding: "5px 0px 0px 10px" }}><Link
                             to={"/profile/" + item.postedby._id}>{item.postedby.name}</Link></h5>
                         {state._id === item.postedby._id ? <i className="material-icons"
-                            style={{ color: "black", float: "right", marginTop: "-30px" }}
+                            style={{ color: "black", marginTop: "-30px", marginLeft: "420px" }}
                             onClick={() => {
                                 deletePost(item._id)
                             }}
                         >
                             delete
                         </i> : ""}
-                        <div className="card-image">
+                        <div className="card-image" >
                             <img src={item.photo} alt="" />
                         </div>
                         <div className="card-content">
@@ -152,7 +160,7 @@ export const Home = () => {
                                 >
                                     favorite_border
                                 </i>
-                                
+
                             }
 
                             <h6>{item.likes.length} likes</h6>
@@ -175,7 +183,7 @@ export const Home = () => {
                     </div>
                 )
             })}
-
+            {loading ? <Loader /> : null}
 
         </div>
     )
